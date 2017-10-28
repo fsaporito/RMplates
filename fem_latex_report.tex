@@ -1,0 +1,58 @@
+\documentclass{standalone}
+
+\begin{document}
+
+\clearpage
+\hfill \\ 
+\begin{table}[!h]
+\centering
+\begin{tabular}{ | c | c | c | c | c | c | c | }
+\hline
+h	&	$0.4$ & $0.3$ & $0.2$ & $0.15$ & $0.1$ & $0.075$ \\ \hline
+ErrL2	&	$1$ & $1$ & $1$ & $1$ & $1.0001$ & $1.0007$ \\ \hline
+ErrH1	&	$1$ & $1$ & $1$ & $0.99999$ & $0.99983$ & $0.99923$ \\ \hline
+\end{tabular}
+\caption{t = 1e-05 }
+\end{table}
+
+\hfill \\ 
+\begin{table}[!h]
+\centering
+\begin{tabular}{ | c | c | c | c | c | c | c | }
+\hline
+h	&	$0.4$ & $0.3$ & $0.2$ & $0.15$ & $0.1$ & $0.075$ \\ \hline
+ErrL2	&	$1$ & $1$ & $1.0003$ & $1.0009$ & $1.0122$ & $1.0396$ \\ \hline
+ErrH1	&	$0.99999$ & $0.99996$ & $0.99964$ & $0.999$ & $0.99381$ & $0.98793$ \\ \hline
+\end{tabular}
+\caption{t = 0.0001 }
+\end{table}
+
+\hfill \\ 
+\begin{table}[!h]
+\centering
+\begin{tabular}{ | c | c | c | c | c | c | c | }
+\hline
+h	&	$0.4$ & $0.3$ & $0.2$ & $0.15$ & $0.1$ & $0.075$ \\ \hline
+ErrL2	&	$1.001$ & $1.0037$ & $1.0233$ & $1.048$ & $1.0994$ & $1.1405$ \\ \hline
+ErrH1	&	$0.99891$ & $0.99702$ & $0.98922$ & $0.98636$ & $0.98953$ & $1.0028$ \\ \hline
+\end{tabular}
+\caption{t = 0.001 }
+\end{table}
+
+\hfill \\ 
+\begin{table}[!h]
+\centering
+\begin{tabular}{ | c | c | c | c | c | c | c | }
+\hline
+h	&	$0.4$ & $0.3$ & $0.2$ & $0.15$ & $0.1$ & $0.075$ \\ \hline
+ErrL2	&	$1.0578$ & $1.0798$ & $1.1326$ & $1.184$ & $1.2272$ & $1.4084$ \\ \hline
+ErrH1	&	$0.98907$ & $0.99143$ & $1.0032$ & $1.0462$ & $1.1402$ & $5.1361$ \\ \hline
+\end{tabular}
+\caption{t = 0.01 }
+\end{table}
+
+
+\clearpage
+
+
+\end{document}
