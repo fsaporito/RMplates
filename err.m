@@ -119,7 +119,7 @@ for iele=1:nele
         tmp_w  = 0; % w against basis sum
         tmpH_t1 = [0;0]; % theta_1 against basis gradient sum
         tmpH_t2 = [0;0]; % theta_2 against basis gradient sum
-        tmpH_w = [0;0]; % w against gradientbasis sum
+        tmpH_w = [0;0]; % w against basis gradient sum
         
         for i=1:6
             tmp_t1 = tmp_t1 + thetaE1(i)*phihq(i,q);

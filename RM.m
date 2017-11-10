@@ -65,6 +65,9 @@ alpha = (h^-2)/(5*(1-ni));
 if (strcmp(psri,'yes'))
     [A_p, B_p, C_p] = RM_psri (xv, yv, vertices, edges, endpoints, ...
                                fdq, mu, lambda, t, alpha);
+    %[A_p, B_p, C_p] = RM_psri_B (xv, yv, vertices, edges, endpoints, ...
+    %                             fdq, mu, lambda, t, alpha);
+                            
     A = A + A_p;
     B = B + B_p;
     C = C + C_p;

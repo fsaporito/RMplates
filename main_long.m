@@ -88,8 +88,6 @@ for j=1:nt
     
 end % end for j
 
-clc
-
 wtime = toc;
 fprintf ( 1, '  MAIN took %f seconds to run.\n', wtime );
 
@@ -155,6 +153,9 @@ if (strcmp(latex,'yes'))
     end
     
 end % end if
+
+disp('');
+disp('');
 
 
 clear all
@@ -245,8 +246,6 @@ for j=1:nt
     end % end for i
     
 end % end for j
-
-clc
 
 wtime = toc;
 fprintf ( 1, '  MAIN took %f seconds to run.\n', wtime );

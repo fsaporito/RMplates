@@ -73,11 +73,6 @@ A = sparse(N,N);
 B = sparse(N,M);
 C = sparse(M,M);
 
-% Tmp Matrices used in the computation of the A matrix
-Id = [1 0; 0 1];
-I = [0 1; 1 0];
-S = [2 1; 1 0];
-
 % Computation For Loop
 for iele=1:nele
     
@@ -123,14 +118,12 @@ for iele=1:nele
         for j=1:12
             for q=1:Nq
                  if j < 6.5  % First six basis functions (j)
-                   divJ = JFIT(1,1:2)*[gphihqx(j,q); 0];
                    v_phi_j = [phihq(j,q); 0];
                    x_phi_j_1 = gphihqx(j,q);
                    y_phi_j_1 = gphihqy(j,q);
                    x_phi_j_2 = 0;
                    y_phi_j_2 = 0;
-                elseif j > 6.5 % Second six basis functions (i)
-                   divJ = JFIT(2,1:2)*[0; gphihqy(j-6,q)];
+                elseif j > 6.5 % Second six basis functions (i);
                    v_phi_j = [0; phihq(j-6,q)];
                    x_phi_j_1 = 0;
                    y_phi_j_1 = 0;
@@ -138,14 +131,12 @@ for iele=1:nele
                    y_phi_j_2 = gphihqy(j-6,q);
                 end
                 if i < 6.5 % First six basis functions (i)
-                    divI = JFIT(1,1:2)*[gphihqx(i,q); 0];
                     v_phi_i = [phihq(i,q); 0];
                     x_phi_i_1 = gphihqx(i,q);
                     y_phi_i_1 = gphihqy(i,q);
                     x_phi_i_2 = 0;
                     y_phi_i_2 = 0;
                 elseif i > 6.5 % Second six basis functions (i)
-                    divI = JFIT(2,1:2)*[0; gphihqy(i-6,q)];
                     v_phi_i = [0; phihq(i-6,q)];
                     x_phi_i_1 = 0;
                     y_phi_i_1 = 0;
@@ -153,34 +144,29 @@ for iele=1:nele
                     y_phi_i_2 = gphihqy(i-6,q);
                 end
                 
-                %          | phi_i(1)   phi_i(2) |
-                % PHI_i =  |                     |
-                %          | phi_i(2)   phi_i(1) |
-                %
-                %          | x_phi_i(1)   x_phi_i(2) |
-                % xPHI_i = |                         |
-                %          | x_phi_i(2)   x_phi_i(1) |
-                %
-                %          | y_phi_i(1)   y_phi_i(2) |
-                % yPHI_i = |                         |
-                %          | y_phi_i(2)   y_phi_i(1) |
-                x_PHI_i = [x_phi_i_1 x_phi_i_2; 
-                           x_phi_i_2 x_phi_i_1];
-                y_PHI_i = [y_phi_i_1 y_phi_i_2; 
-                           y_phi_i_2 y_phi_i_1];
-                
-                % [Id I]*[JFIT*x_PHI_i  JFIT*y_PHI_i]') : S
-                gradVect_i = el_mat_prod([Id I]*([JFIT*x_PHI_i;
-                                                  JFIT*y_PHI_i]), S);
-                
                 % grad phi_j (it returns a 2x2 matrix)
                 grad_phi_j_rif = JFIT*[x_phi_j_1 y_phi_j_1; 
                                        x_phi_j_2 y_phi_j_2];
+                % grad phi_i (it returns a 2x2 matrix)
+                grad_phi_i_rif = JFIT*[x_phi_i_1 y_phi_i_1; 
+                                       x_phi_i_2 y_phi_i_2];
                 
-                A1 = divJ*divI;
-                A2 = contr(grad_phi_j_rif, gradVect_i);
+                % grad phi_i_t (it returns a 2x2 matrix)
+                grad_phi_i_rif_t = [x_phi_i_1 x_phi_i_2; 
+                                    y_phi_i_1 y_phi_i_2]*JFI;
+                
+                % A1 = div_ref_phi_j * div_ref_phi_i
+                % div_ref_phi = trace(grad_phi)
+                A1 = trace(grad_phi_j_rif) * trace(grad_phi_i_rif);
+                
+                % A2 = grad_phi_j : (grad_phi_i + grad_phi_i_transpost)
+                A2 = contr(grad_phi_j_rif, ...
+                           grad_phi_i_rif + grad_phi_i_rif_t);
+                       
+                % A3
                 A3 = dot(v_phi_j,v_phi_i);
-               %
+               
+                % Full local A term
                 AE(i,j) = AE(i,j) + (lambda*A1 + ...
                                      mu*A2 + ...
                                      mu*t^(-2)*A3)*whq(q);            
