@@ -8,11 +8,13 @@ lambda = l_u;
 % Mu
 mu = m_u;
 
-% Ni
-ni = 1 / (2*mu + 2*lambda);
+% E Definition
+% E = mu/(lambda + mu);
+E = 10.92*10^6;
 
-% E
-E = mu/(lambda + mu);
+% ni Definition
+% ni = 1 / (2*mu + 2*lambda);
+ni = 0.3;
 
 % First Component
 %theta1 = cos(x)*(x^2 + y^2)

@@ -118,17 +118,17 @@ for iele=1:nele
     for i=1:12
         for j=1:12
             if j < 6.5  % First six basis functions (j)
-                tmpJ = phih2(j,xb,yb);
+                tmpJ = [phih2(j,xb,yb), 0];
              elseif j > 6.5 % Second six basis functions (i)
-                tmpJ = phih2(j-6,xb,yb);
+                tmpJ = [0, phih2(j-6,xb,yb)];
             end
             if i < 6.5  % First six basis functions (j)
-                tmpI = phih2(i,xb,yb);
+                tmpI = [phih2(i,xb,yb), 0];
             elseif i > 6.5 % Second six basis functions (i)
-                tmpI = phih2(i-6,xb,yb);
+                tmpI = [0, phih2(i-6,xb,yb)];
             end
             
-            AE(i,j) = area*tmpJ*tmpI;         
+            AE(i,j) = area*dot(tmpJ,tmpI);         
             
         end % End For j
     end % End For i
@@ -137,24 +137,21 @@ for iele=1:nele
     for i=1:12
         for k=1:6
             if i < 6.5  % First six basis functions (j)
-                tmpI = [p_phi_1([v1 v2 v3],i); ...
-                        0; 0; 0];
+                tmpI = [phih2(i,xb,yb), 0];
             elseif i > 6.5 % Second six basis functions (i)
-                tmpI = [0; 0; 0; ...
-                        p_phi_2([v1 v2 v3],i-6)];
+                tmpI = [0, phih2(i-6,xb,yb)];
             end
-            BE(i,k) = (area/3)*dot(tmpI, [g_phi_1([v1 v2 v3],k); ...
-                                          g_phi_2([v1 v2 v3],k)]);  
+            [gxk, gyk] = gradhphih2(k,xb,yb);
+            BE(i,k) = area*dot(tmpI, [gxk, gyk]); 
         end % End For
     end % End For i
     
      % C Matrix Computation Loop
     for l=1:6
         for k=1:6
-           CE(l,k) = (area/3)*dot([g_phi_1([v1 v2 v3],l); ...
-                                   g_phi_2([v1 v2 v3],l)], ...
-                                   [g_phi_1([v1 v2 v3],k); ...
-                                    g_phi_2([v1 v2 v3],k)]);
+            [gxl, gyl] = gradhphih2(l,xb,yb);
+            [gxk, gyk] = gradhphih2(k,xb,yb);
+           CE(l,k) = area*dot([gxl, gyl], [gxk, gyk]); 
         end % End For k
     end % End For l
     

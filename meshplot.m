@@ -5,7 +5,7 @@ function [] = meshplot(xv,yv,endpoints,meshname,i);
 % -----------------------------------------------------------------
 figure(i);
 grid on;
-title (['Mesh - ', meshname]);
+title (meshname);
 hold on
 
 P = [xv,yv];
@@ -16,4 +16,4 @@ for j=1:size(E,1)
     plot(x,y)  
 end
 
-saveas (i, ['Mesh - ', meshname, '.png']);
+saveas (i, [meshname, '.png']);

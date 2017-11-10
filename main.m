@@ -2,8 +2,8 @@ clc
 clear all
 close all
 
-%psri = 'yes';
-psri = 'no';
+psri = 'yes';
+% psri = 'no';
 
 % Start time
 tic
@@ -17,11 +17,19 @@ out = 'no';
 % plot = 'yes';
 plot = 'no';
 
+% E Definition
+E = 10.92*10^6;
+
+% ni Definition
+ni = 0.3;
+
 % Mu Definition
-mu = 1;
+%mu = 1;
+mu = E / (2 + 2*ni);
 
 % Lambda Definition
-lambda = 1;
+% lambda = 1;
+lambda = (E*ni)/ ( (1 + ni) * (1 - 2*ni) );
 
 % h_max Array Definition
 h = [0.4, 0.3, 0.2, 0.15, 0.1, 0.075];
@@ -57,7 +65,7 @@ for j=1:nt
       % [xv,yv,vertices,edges,endpoints,boundary,boundedges] = meshgen(h(i));
     
       %%% Meshes Loading
-      meshname = ['mesh' num2str(h(i)) '.mat'];
+      meshname = ['./meshes/mesh' num2str(h(i)) '.mat'];
       load(meshname);
       disp(['    Mesh: ', num2str(i), '   - h_max = ', num2str(h(i)), ' loaded:']);
       nver = length(xv);
@@ -114,9 +122,9 @@ disp(' ');
     title (['ErrL2 (t = ', num2str(t(j)), ')']);
   
   if (strcmp(psri,'yes'))
-      saveas (1, 'psri_convL2.png');
+      saveas (1, './conv_plots/psri_convL2.png');
   else
-      saveas (1, 'fem_convL2.png');
+      saveas (1, './conv_plots/fem_convL2.png');
   end
   
 %  Figure 2, H1 Error
@@ -130,9 +138,9 @@ disp(' ');
       title (['ErrH1 (t = ', num2str(t(j)), ')']);
 
   if (strcmp(psri,'yes'))
-      saveas (2, 'psri_convH1.png');
+      saveas (2, './conv_plots/psri_convH1.png');
   else
-      saveas (2, 'fem_convH1.png');
+      saveas (2, './conv_plots/fem_convH1.png');
   end
   
      
@@ -146,11 +154,11 @@ if (strcmp(latex,'yes'))
     
     if (strcmp(psri,'yes'))
     
-        latexReport('psri_latex_report.tex', errL2, errH1, h, nt, n, t);
+        latexReport('./latex_reports/psri_latex_report.tex', errL2, errH1, h, nt, n, t);
         
     else
         
-        latexReport('fem_latex_report.tex', errL2, errH1, h, nt, n, t);
+        latexReport('./latex_reports/fem_latex_report.tex', errL2, errH1, h, nt, n, t);
         
     end
     

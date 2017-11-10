@@ -59,14 +59,16 @@ b = zeros(N+M,1);
 % -------------------------------------------------------------------------
 
 %alpha = max(t^(-2),mu);
-ni = 1 / (2*mu + 2*lambda);
+% ni Definition
+% ni = 1 / (2*mu + 2*lambda);
+ni = 0.3;
 alpha = (h^-2)/(5*(1-ni));
 
 if (strcmp(psri,'yes'))
-    [A_p, B_p, C_p] = RM_psri (xv, yv, vertices, edges, endpoints, ...
-                               fdq, mu, lambda, t, alpha);
-    %[A_p, B_p, C_p] = RM_psri_B (xv, yv, vertices, edges, endpoints, ...
-    %                             fdq, mu, lambda, t, alpha);
+%    [A_p, B_p, C_p] = RM_psri (xv, yv, vertices, edges, endpoints, ...
+%                                fdq, mu, lambda, t, alpha);
+    [A_p, B_p, C_p] = RM_psri_B (xv, yv, vertices, edges, endpoints, ...
+                                 fdq, mu, lambda, t, alpha);
                             
     A = A + A_p;
     B = B + B_p;
@@ -133,9 +135,32 @@ uh = zeros(N+M,1);
 
 uh(NL_load) = Kh\fh;
 
+
 % -------------------------------------------------------------------------
 % L2 and H1 error computations
 % -------------------------------------------------------------------------
 [errL2, errH1] = err(uh, fdq, xv, yv, vertices, edges, endpoints, out);
+
+
+% theta1_h = uh(1:M);     % theta, first component (size = N/2 = M)
+% theta2_h = uh(M+1:N); % theta, second component (size = N/2 = M)
+% w_h = uh(N+1:end);  % w (size = M)
+% 
+% figure()
+% for k=1:size(vertices,1)
+%     hold on;
+%     index=(vertices(k,1:3))';
+%     % riga sotto: opzione per funzione nota ai vertici
+%     w_tmp=[w_h(index);w_h(index(1))];  % prima componente
+%     % uu_tmp=[uh2(index);uh2(index(1))];  % seconda componente
+%     % riga sotto: opzione per funzione costante a tratti
+%     % p_tmp = ph(k)*ones(length(index)+1,1); 
+%     vert_temp=[xv(index),yv(index); xv(index(1)),yv(index(1))];
+%     fill3(vert_temp(:,1),vert_temp(:,2),w_tmp,w_tmp); 
+% end
+% view(3)
+% grid on
+% colorbar
+% hold off   
 
 end % end function

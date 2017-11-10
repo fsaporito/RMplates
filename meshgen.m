@@ -27,8 +27,8 @@ function [xv,yv,vertices,edges,endpoints,boundary,boundedges] = meshgen(hmax)
 % boundedges : lati di bordo
 %--------------------------------------------------------
 
-%M = [2 4 0 0 1 1 0 1 1 0]';  % dati del dominio Quadrato [0,1]^2
-M =  [3 4 -1 1 1 -1 1 1 -1 -1]'; % dati del dominio Quadrato [-1,1]^2
+M = [2 4 0 0 1 1 0 1 1 0]';  % dati del dominio Quadrato [0,1]^2
+%M =  [3 4 -1 1 1 -1 1 1 -1 -1]'; % dati del dominio Quadrato [-1,1]^2
 D=decsg(M);
 [P,E,T]=initmesh(D,'Hmax',hmax); % NOTA: questi si possono ottenere anche
                                  % ... con PDE tools (interfaccia grafica)
